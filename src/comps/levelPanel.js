@@ -1,12 +1,13 @@
-var game = require('../game');
+var game = require('../game'),
+    gConfig = require('../globalConfig');
 
-function levelPanel(level) {
+function levelPanel(level, width, height) {
     this.group = new Phaser.Group(game);
     this.group.inputEnableChildren = true;
 
     let bg = new Phaser.Graphics(game, 0, 0);
-    bg.beginFill(0xff0000);
-    bg.drawRect(0,0,900,300);
+    bg.beginFill(gConfig.color.defaultPanelBgNum);
+    bg.drawRoundedRect(0,0,width,height, '50');
     bg.endFill();
 
     this.group.add(bg);
@@ -14,7 +15,7 @@ function levelPanel(level) {
     let Level = new Phaser.Text(game, 0, 0, level+'', {
         fontSize: '80px',
         fontWeight: 'bold',
-        fill: '#f2bb15'
+        fill: '#ffffff'
     });
     this.group.add(Level);
 

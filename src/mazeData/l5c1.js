@@ -5,35 +5,35 @@ module.exports = {
     exitY: 0,
     pathData: [
         [
-            {t:true, r:true, b:true, l:true},
-            {t:true, r:false, b:false, l:true},
-            {t:false, r:true, b:false, l:true},
-            {t:false, r:true, b:false, l:true},
-            {t:false, r:false, b:true, l:true}
+            {t:true, l:true},
+            {t:true, l:true},
+            {t:false, l:true},
+            {t:false, l:true},
+            {t:false, l:true}
         ], [
-            {t:true, r:false, b:false, l:true},
-            {t:false, r:true, b:true, l:false},
-            {t:true, r:false, b:false, l:true},
-            {t:false, r:true, b:true, l:true},
-            {t:true, r:false, b:true, l:false}
+            {t:true, l:true},
+            {t:false, l:false},
+            {t:true, l:true},
+            {t:false, l:true},
+            {t:true, l:false}
         ], [
-            {t:true, r:true, b:true, l:false},
-            {t:true, r:false, b:false, l:true},
-            {t:false, r:false, b:true, l:false},
-            {t:true, r:true, b:true, l:true},
-            {t:true, r:false, b:true, l:false}
+            {t:true, l:false},
+            {t:true, l:true},
+            {t:false, l:false},
+            {t:true, l:true},
+            {t:true, l:false}
         ], [
-            {t:true, r:false, b:true, l:true},
-            {t:true, r:false, b:true, l:false},
-            {t:true, r:true, b:false, l:false},
-            {t:false, r:true, b:false, l:true},
-            {t:false, r:true, b:true, l:false}
+            {t:true, l:true},
+            {t:true, l:false},
+            {t:true, l:false},
+            {t:false, l:true},
+            {t:false, l:false}
         ], [
-            {t:true, r:true, b:false, l:false},
-            {t:false, r:true, b:false, l:false},
-            {t:false, r:true, b:false, l:true},
-            {t:false, r:true, b:false, l:true},
-            {t:false, r:true, b:true, l:true}
+            {t:true, l:false},
+            {t:false, l:false},
+            {t:false, l:true},
+            {t:false, l:true},
+            {t:false, l:true}
         ]
     ]
 }
