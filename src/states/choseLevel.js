@@ -19,28 +19,36 @@ choseLevel.prototype.create = function() {
     const paddingTop = 100;
     const paddingLeft = 100;
 
-    var title = game.add.text(paddingTop, paddingLeft, '选择难度', {
+    var titleGroup = new Phaser.Group(game);
+    game.add.world.add(titleGroup);
+    var bg = new Phaser.Graphics(game, 0, 0);
+    bg.beginFill(gConfig.color.headerNum);
+    bg.drawRect(0,0,screenW,200);
+    bg.endFill();
+    titleGroup.add(bg);
+
+    var title = new Phaser.Text(game,50, 50, '选择难度', {
         fontSize: '80px',
-        fontWeight: 'bold',
-        fill: gConfig.color.defaultTxtTxt
+        fill: gConfig.color.defaultBgTxt
     });
+    titleGroup.add(title);
 
     const panelWidth = screenW - 2*paddingLeft;
     const panelPaddingTop = 50;
     // 增加level5
-    var level5 = new levelPanel(5, panelWidth, 300).group;
-    level5.top = title.y + title.height + panelPaddingTop;
+    var level5 = new levelPanel('新手入门', 5, panelWidth, 400).group;
+    level5.top = titleGroup.y + titleGroup.height + panelPaddingTop;
     level5.left = paddingLeft;
     game.add.world.add(level5);
 
     // 增加level7
-    var level7 = new levelPanel(7, panelWidth, 300).group;
+    var level7 = new levelPanel('键入佳境', 7, panelWidth, 400).group;
     level7.top = level5.y + level5.height + panelPaddingTop;
     level7.left = paddingLeft;
     game.add.world.add(level7);
 
     // 增加level9
-    var level9 = new levelPanel(9, panelWidth, 300).group;
+    var level9 = new levelPanel('登峰造极', 9, panelWidth, 400).group;
     level9.top = level7.y + level7.height + panelPaddingTop;
     level9.left = paddingLeft;
     game.add.world.add(level9);

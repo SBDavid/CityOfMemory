@@ -6,8 +6,11 @@ module.exports = {
         defaultTxtTxt: '#776e65',
         defaultTxtNum: 0x776e65,
 
-        defaultPanelBgTxt: '#bbada0',
-        defaultPanelBgNum: 0xbbada0
+        defaultPanelBgTxt: '#f59563',
+        defaultPanelBgNum: 0xf59563,
+
+        headerTxt: '#bbada0',
+        headerNum: 0xbbada0
     }
     
 
