@@ -44,8 +44,9 @@ chooseChapter.prototype.create = function() {
     titleGroup.add(quitBtn); 
 
     // 标题
-    var title = new Phaser.Text(game,150, paddingTop, '关卡', {
-        fontSize: '80px',
+    var title = new Phaser.Text(game,150, paddingTop, `${this.levelNo} X ${this.levelNo}`, {
+        fontSize: '100px',
+        fontStyle: 'italic',
         fill: gConfig.color.defaultBgTxt
     });
     titleGroup.add(title);
