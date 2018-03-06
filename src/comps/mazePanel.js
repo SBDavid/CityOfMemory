@@ -7,7 +7,7 @@ var utils = require('./utils');
 function mazePanel(level, chapter) {
     this.group = new Phaser.Group(game);
     this.screenWidth = game.width;
-    this.mazeM = new mazeManager(mazeData['level'+level][chapter-1], this.screenWidth);
+    this.mazeM = new mazeManager(mazeData['level'+level][chapter], this.screenWidth);
 
     this.init();
 }
