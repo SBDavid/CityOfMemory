@@ -15,7 +15,7 @@ function chapterPanel(level, chapter, width, height) {
 
     this.group.add(bg);
 
-    let chapterTitle = new Phaser.Text(game, 0, 0, chapter+'', {
+    let chapterTitle = new Phaser.Text(game, 0, 0, chapter+1+'', {
         fontSize: '80px',
         fontWeight: 'bold',
         fill: '#f2bb15'

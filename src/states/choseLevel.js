@@ -23,11 +23,11 @@ choseLevel.prototype.create = function() {
     game.add.world.add(titleGroup);
     var bg = new Phaser.Graphics(game, 0, 0);
     bg.beginFill(gConfig.color.headerNum);
-    bg.drawRect(0,0,screenW,200);
+    bg.drawRect(0,0,screenW,150);
     bg.endFill();
     titleGroup.add(bg);
 
-    var title = new Phaser.Text(game,50, 50, '选择难度', {
+    var title = new Phaser.Text(game,50, 25, '难度', {
         fontSize: '80px',
         fill: gConfig.color.defaultBgTxt
     });
