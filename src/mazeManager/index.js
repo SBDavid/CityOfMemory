@@ -25,6 +25,11 @@ mazeManager.prototype.init = function() {
     this.pathWidth = this.unitSize - this.wallWidth;
     // 迷宫中宽高
     this.mazeSize = this.borderWidth*2 + this.unitSize*this.mazeLevel;
+
+    // 游戏开始时间
+    this.startTime = null;
+    // 游戏步数
+    this.stepCount = 0;
 }
 
 mazeManager.prototype.validateCo = function(_x, _y) {
@@ -75,6 +80,13 @@ mazeManager.prototype.move = function(dir) {
     } else if (dir === 'l') {
         this.currentCo.x--;
     }
+
+    // 设置开始时间
+    if(this.startTime === null) {
+        this.startTime = Date.now();
+    }
+
+    this.stepCount++;
 }
 
 // 是否是出口位置

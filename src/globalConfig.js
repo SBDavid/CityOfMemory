@@ -9,8 +9,8 @@ module.exports = {
         defaultPanelBgTxt: '#f59563',
         defaultPanelBgNum: 0xf59563,
 
-        headerTxt: '#bbada0',
-        headerNum: 0xbbada0
+        headerTxt: '#8f7a66',
+        headerNum: 0x8f7a66
     }
     
 
