@@ -17,6 +17,11 @@ module.exports = {
         dashPanelBgNum: 0xbbada0,
         dashPanelTitleTxt: '#eee4da',
         dashPanelContentTxt: '#ffffff',
+
+        mazeBgNum: 0xeee4da,
+        mazeWallNum: 0xbbada0,
+        mazePeopleNum: 0xedcc61,
+        mazeExitNum: 0xf67c5f,
     }
     
 

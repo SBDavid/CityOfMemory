@@ -23,6 +23,7 @@ function dashBoardPanel(mazeData, screenW) {
     this.group.add(bg);
 
     this.initTimeLimit(mazeData.timeLimit);
+    this.initStepLimit(mazeData.stepLimit);
 }
 
 dashBoardPanel.prototype.initTimeLimit = function(timeLimit) {
@@ -57,6 +58,40 @@ dashBoardPanel.prototype.initTimeLimit = function(timeLimit) {
 dashBoardPanel.prototype.setTimeLimit = function(timeLimit) {
     this.timeLimitTxt.text = timeLimit+'';
     this.timeLimitTxt.left = (this.boardW - this.timeLimitTxt.width) / 2;
+}
+
+dashBoardPanel.prototype.initStepLimit = function(stepLimit) {
+    this.stepBoard = new Phaser.Group(game);
+    this.stepBoard.top = this.margin;
+    this.stepBoard.left = this.margin*2 + this.boardW;
+    this.group.add(this.stepBoard);
+    // 背景
+    let bg = new Phaser.Graphics(game, 0, 0);
+    bg.beginFill(gConfig.color.dashPanelBgNum);
+    bg.drawRoundedRect(0,0,this.boardW,this.boardH, 20);
+    bg.endFill();
+    this.stepBoard.add(bg);
+    // title
+    let titleText = new Phaser.Text(game, 0, 0, 'Step', {
+        fontSize: '40px',
+        fill: gConfig.color.dashPanelTitleTxt
+    });
+    titleText.top = 20;
+    titleText.left = (this.boardW - titleText.width) / 2;
+    this.stepBoard.add(titleText);
+    // content
+    this.stepLimitTxt = new Phaser.Text(game, 0, 0, stepLimit+'', {
+        fontSize: '60px',
+        fill: gConfig.color.dashPanelContentTxt
+    });
+    this.stepLimitTxt.top = 60;
+    this.stepLimitTxt.left = (this.boardW - this.timeLimitTxt.width) / 2;
+    this.stepBoard.add(this.stepLimitTxt);
+}
+
+dashBoardPanel.prototype.setStepLimit = function(stepLimit) {
+    this.stepLimitTxt.text = stepLimit+'';
+    this.stepLimitTxt.left = (this.boardW - this.stepLimitTxt.width) / 2;
 }
 
 module.exports = dashBoardPanel;

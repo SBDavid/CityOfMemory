@@ -1,5 +1,6 @@
 module.exports = {
     timeLimit: 10,
+    stepLimit: 10,
     entryX: 2,
     entryY: 2,
     exitX: 2,

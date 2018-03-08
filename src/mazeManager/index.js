@@ -31,7 +31,7 @@ mazeManager.prototype.init = function() {
 
     // 游戏开始时间
     this.startTime = null;
-    this.timeLimitTimer = new Phaser.Timer(game);
+    this.timeLimitTimer = game.time.create(false);
     // 游戏步数
     this.stepCount = 0;
 }
@@ -88,23 +88,24 @@ mazeManager.prototype.move = function(dir) {
     // 设置开始时间
     if(this.startTime === null) {
         this.startTime = Date.now();
-        /* this.timeLimitTimer = setInterval(() => {
+        this.timeLimitTimer.loop(1000, () => {
             let now = Date.now();
-            let pass = Math.ceil((now - this.startTime) / 1000);
+            let pass = Math.floor((now - this.startTime) / 1000);
             let left = this.mazeData.timeLimit - pass;
             this.dashBoard.setTimeLimit(left);
-            if (left === 0) {
+            if (left <= 0) {
                 this.gameOver();
             }
-            
-        }, 1000); */
-        this.timeLimitTimer.add(10, function() {
-            console.info(111);
         })
         this.timeLimitTimer.start();
     }
 
     this.stepCount++;
+    let stepLeft = this.mazeData.stepLimit - this.stepCount;
+    this.dashBoard.setStepLimit(stepLeft);
+    if (stepLeft <= 0) {
+        this.gameOver();
+    }
 }
 
 // 是否是出口位置
@@ -151,7 +152,7 @@ mazeManager.prototype.hasWall = function(_x, _y, dir) {
 }
 
 mazeManager.prototype.gameOver = function() {
-    clearInterval(this.timeLimitTimer);
+    this.timeLimitTimer.stop();
 }
 
 module.exports = mazeManager;

@@ -1,6 +1,5 @@
 var game = require('../game'),
     gConfig = require('../globalConfig'),
-    globalStatePanel = require('../comps/globalStatePanel'),
     titlePanel = require('../comps/titlePanel'),
     mazePanel = require('../comps/mazePanel'),
     mazeData = require('../mazeData/index'),

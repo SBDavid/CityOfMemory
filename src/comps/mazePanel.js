@@ -1,4 +1,5 @@
 var game = require('../game'),
+    gConfig = require('../globalConfig'),
     mazeManager = require('../mazeManager/index'),
     mazeData = require('../mazeData/index');
 
@@ -12,7 +13,10 @@ function mazePanel(level, chapter, dashBoard) {
 }
 
 mazePanel.prototype.init = function() {
+    // 地图
     this.initMaze();
+    // 遮罩
+    // 按钮
     this.initControl();
 }
 
@@ -32,7 +36,7 @@ mazePanel.prototype.initControl = function() {
 mazePanel.prototype.drawMaze = function() {
     // 绘制背景
     this.maze = new Phaser.Graphics(game, 0, 0);
-    this.maze.beginFill(0xcee7ff);
+    this.maze.beginFill(gConfig.color.mazeBgNum);
     this.maze.drawRect(0,0,this.mazeM.mazeSize,this.mazeM.mazeSize);
     this.maze.endFill();
 
@@ -81,32 +85,32 @@ mazePanel.prototype.dramMazeUnit = function(_x, _y) {
     const centerCo = this.getUnitCenterCo(_x, _y);
     // 绘制左边
     if (this.mazeM.hasWall(_x, _y, 'l')) {
-        this.maze.beginFill(0x999999);
+        this.maze.beginFill(gConfig.color.mazeWallNum);
         this.maze.drawRect(unitBaseCo.x, unitBaseCo.y, this.mazeM.wallWidth, this.mazeM.unitSize+this.mazeM.wallWidth);
         this.maze.endFill();
     }
 
     // 上面
     if (this.mazeM.hasWall(_x, _y, 't')) {
-        this.maze.beginFill(0x999999);
+        this.maze.beginFill(gConfig.color.mazeWallNum);
         this.maze.drawRect(unitBaseCo.x, unitBaseCo.y, this.mazeM.unitSize+this.mazeM.wallWidth, this.mazeM.wallWidth);
         this.maze.endFill();
     }
     // 绘制右边，只有最右的单元格需要绘制
     if (_x === this.mazeM.mazeLevel-1 && this.mazeM.hasWall(_x, _y, 'r')) {
-        this.maze.beginFill(0x999999);
+        this.maze.beginFill(gConfig.color.mazeWallNum);
         this.maze.drawRect(unitBaseCo.x + this.mazeM.unitSize, unitBaseCo.y, this.mazeM.wallWidth, this.mazeM.unitSize+this.mazeM.wallWidth);
         this.maze.endFill();
     }
     // 绘制下面，只有最下的单元格需要绘制
     if (_y === this.mazeM.mazeLevel-1 && this.mazeM.hasWall(_x, _y, 'b')) {
-        this.maze.beginFill(0x999999);
+        this.maze.beginFill(gConfig.color.mazeWallNum);
         this.maze.drawRect(unitBaseCo.x, unitBaseCo.y + this.mazeM.unitSize, this.mazeM.unitSize+this.mazeM.wallWidth, this.mazeM.wallWidth);
         this.maze.endFill();
     }
     // 绘制出口标识
     if (this.mazeM.isExit(_x, _y)) {
-        this.maze.beginFill(0xff00ff);
+        this.maze.beginFill(gConfig.color.mazeExitNum);
         this.maze.drawCircle(centerCo.x, centerCo.y, this.mazeM.pathWidth/2);
         this.maze.endFill();
     }
@@ -158,7 +162,7 @@ mazePanel.prototype.drawControl = function() {
 mazePanel.prototype.drawPeople = function() {
     this.people = new Phaser.Graphics(game, 0, 0);
     const center = Math.floor(this.mazeM.screenWidth/2);
-    this.people.beginFill(0xffff00);
+    this.people.beginFill(gConfig.color.mazePeopleNum);
     this.people.drawCircle(center,center,this.mazeM.pathWidth/2);
     this.people.endFill();
 
