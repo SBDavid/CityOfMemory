@@ -1,4 +1,5 @@
 module.exports = {
+    timeLimit: 100,
     entryX: 4,
     entryY: 4,
     exitX: 4,

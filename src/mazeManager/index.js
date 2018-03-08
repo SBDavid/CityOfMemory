@@ -1,6 +1,7 @@
-function mazeManager(mazeData, screenWidth) {
+function mazeManager(mazeData, screenWidth, dashBoard) {
     this.mazeData = mazeData;
     this.screenWidth = screenWidth;
+    this.dashBoard = dashBoard;
     this.init();
 }
 
@@ -28,6 +29,7 @@ mazeManager.prototype.init = function() {
 
     // 游戏开始时间
     this.startTime = null;
+    this.timeLimitTimer = 0;
     // 游戏步数
     this.stepCount = 0;
 }
@@ -84,6 +86,16 @@ mazeManager.prototype.move = function(dir) {
     // 设置开始时间
     if(this.startTime === null) {
         this.startTime = Date.now();
+        this.timeLimitTimer = setInterval(() => {
+            let now = Date.now();
+            let pass = Math.ceil((now - this.startTime) / 1000);
+            let left = this.mazeData.timeLimit - pass;
+            this.dashBoard.setTimeLimit(left);
+            if (left === 0) {
+                this.gameOver();
+            }
+            
+        }, 1000);
     }
 
     this.stepCount++;
@@ -130,6 +142,10 @@ mazeManager.prototype.hasWall = function(_x, _y, dir) {
             return path.t;
         }
     }
+}
+
+mazeManager.prototype.gameOver = function() {
+    clearInterval(this.timeLimitTimer);
 }
 
 module.exports = mazeManager;

@@ -1,4 +1,4 @@
-var game = require('../game');
+/* var game = require('../game');
 
 function globalStatePanel(level, chapter) {
     this.group = new Phaser.Group(game);
@@ -11,4 +11,4 @@ function globalStatePanel(level, chapter) {
     this.group.add(title);
 }
 
-module.exports = globalStatePanel;
+module.exports = globalStatePanel; */

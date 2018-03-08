@@ -4,11 +4,10 @@ var game = require('../game'),
 
 var utils = require('./utils');
 
-function mazePanel(level, chapter) {
+function mazePanel(level, chapter, dashBoard) {
     this.group = new Phaser.Group(game);
     this.screenWidth = game.width;
-    this.mazeM = new mazeManager(mazeData['level'+level][chapter], this.screenWidth);
-
+    this.mazeM = new mazeManager(mazeData['level'+level][chapter], this.screenWidth, dashBoard);
     this.init();
 }
 
