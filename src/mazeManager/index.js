@@ -1,3 +1,5 @@
+var game = require('../game');
+
 function mazeManager(mazeData, screenWidth, dashBoard) {
     this.mazeData = mazeData;
     this.screenWidth = screenWidth;
@@ -29,7 +31,7 @@ mazeManager.prototype.init = function() {
 
     // 游戏开始时间
     this.startTime = null;
-    this.timeLimitTimer = 0;
+    this.timeLimitTimer = new Phaser.Timer(game);
     // 游戏步数
     this.stepCount = 0;
 }
@@ -86,7 +88,7 @@ mazeManager.prototype.move = function(dir) {
     // 设置开始时间
     if(this.startTime === null) {
         this.startTime = Date.now();
-        this.timeLimitTimer = setInterval(() => {
+        /* this.timeLimitTimer = setInterval(() => {
             let now = Date.now();
             let pass = Math.ceil((now - this.startTime) / 1000);
             let left = this.mazeData.timeLimit - pass;
@@ -95,7 +97,11 @@ mazeManager.prototype.move = function(dir) {
                 this.gameOver();
             }
             
-        }, 1000);
+        }, 1000); */
+        this.timeLimitTimer.add(10, function() {
+            console.info(111);
+        })
+        this.timeLimitTimer.start();
     }
 
     this.stepCount++;
