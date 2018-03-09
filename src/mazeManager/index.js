@@ -16,14 +16,12 @@ mazeManager.prototype.init = function() {
     }
     // 迷宫尺寸
     this.mazeLevel = this.mazeData.pathData.length;
-    // 可见尺寸
-    this.visSize = 3;
     // 单元格宽度
-    this.unitSize = Math.floor(this.screenWidth/5);
+    this.unitSize = Math.ceil(this.screenWidth/31*6);
     // 边框宽度
-    this.borderWidth = this.unitSize*2;
+    this.borderWidth = this.unitSize*3;
     // 墙体厚度
-    this.wallWidth = Math.floor(this.unitSize * 0.2);
+    this.wallWidth = Math.floor(this.screenWidth/30);
     // 通道宽度
     this.pathWidth = this.unitSize - this.wallWidth;
     // 迷宫中宽高
@@ -34,6 +32,17 @@ mazeManager.prototype.init = function() {
     this.timeLimitTimer = game.time.create(false);
     // 游戏步数
     this.stepCount = 0;
+
+    // 定义属性
+    this.initProperty();
+}
+
+mazeManager.prototype.initProperty = function() {
+    Object.defineProperty(this, 'visSize', {
+        get: function() {
+            return this.mazeData.visSize;
+        }
+    })
 }
 
 mazeManager.prototype.validateCo = function(_x, _y) {

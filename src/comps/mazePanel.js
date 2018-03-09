@@ -16,6 +16,7 @@ mazePanel.prototype.init = function() {
     // 地图
     this.initMaze();
     // 遮罩
+    this.initMask();
     // 按钮
     this.initControl();
 }
@@ -24,6 +25,12 @@ mazePanel.prototype.initMaze = function() {
     this.mazeGroup = new Phaser.Group(game);
     this.group.add(this.mazeGroup);
     this.drawMaze();
+}
+
+mazePanel.prototype.initMask = function() {
+    this.maskGroup = new Phaser.Group(game);
+    this.group.add(this.maskGroup);
+    this.drawMask();
 }
 
 mazePanel.prototype.initControl = function() {
@@ -233,6 +240,20 @@ mazePanel.prototype.showArrow = function() {
     if (!this.mazeM.hasWall(currentCo.x, currentCo.y, 'l') && currentCo.x !== 0) {
         this.controlGroup.add(this.arraws.leftArraw);
     } 
+}
+
+// 绘制遮罩
+mazePanel.prototype.drawMask = function() {
+    let visSize = this.mazeM.visSize;
+    if (visSize === 5) {
+        return;
+    } 
+    let mask = new Phaser.Graphics(game, 0, 0);
+    let unitSize = this.mazeM.unitSize;
+    mask.lineStyle(unitSize, gConfig.color.mazeMaskNum);
+    mask.drawRect(unitSize/2,unitSize/2,this.screenWidth-unitSize,this.screenWidth-unitSize);
+    mask.endFill();
+    this.maskGroup.add(mask);
 }
 
 module.exports = mazePanel;

@@ -22,6 +22,7 @@ module.exports = {
         mazeWallNum: 0xbbada0,
         mazePeopleNum: 0xedcc61,
         mazeExitNum: 0xf67c5f,
+        mazeMaskNum: 0xeee4da
     }
     
 

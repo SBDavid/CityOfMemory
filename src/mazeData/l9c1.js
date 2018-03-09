@@ -1,6 +1,7 @@
 module.exports = {
     timeLimit: 100,
     stepLimit: 10,
+    visSize: 3,
     entryX: 4,
     entryY: 4,
     exitX: 4,
