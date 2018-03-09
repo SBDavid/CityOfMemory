@@ -1,7 +1,10 @@
-var game = require('../game');
+var game = require('../game'),
+    MazeData = require('../mazeData/index');    
 
-function mazeManager(mazeData, screenWidth, dashBoard) {
-    this.mazeData = mazeData;
+function mazeManager(level, chapter, screenWidth, dashBoard) {
+    this.levelNo = level;
+    this.chapterNo = chapter;
+    this.mazeData = MazeData['level'+level][chapter];
     this.screenWidth = screenWidth;
     this.dashBoard = dashBoard;
     this.init();
@@ -112,7 +115,7 @@ mazeManager.prototype.move = function(dir) {
     this.stepCount++;
     let stepLeft = this.mazeData.stepLimit - this.stepCount;
     this.dashBoard.setStepLimit(stepLeft);
-    if (stepLeft <= 0) {
+    if (stepLeft <= 0 || this.isExit(this.currentCo.x, this.currentCo.y)) {
         this.gameOver();
     }
 }
@@ -162,6 +165,18 @@ mazeManager.prototype.hasWall = function(_x, _y, dir) {
 
 mazeManager.prototype.gameOver = function() {
     this.timeLimitTimer.stop();
+
+    if (this.isExit(this.currentCo.x, this.currentCo.y)) {
+        game.state.start('win', true, false, {
+            level: this.levelNo,
+            chapter: this.chapterNo
+        });
+    } else {
+        game.state.start('lose', true, false, {
+            level: this.levelNo,
+            chapter: this.chapterNo
+        });
+    }
 }
 
 module.exports = mazeManager;

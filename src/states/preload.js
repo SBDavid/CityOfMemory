@@ -12,6 +12,8 @@ preload.prototype.preload = function() {
 
     // 图片资源加载
     game.load.image('quit', './asset/img/quit.png');
+    game.load.image('win', './asset/img/win.png');
+    game.load.image('lose', './asset/img/lose.png');
 
     game.load.onLoadComplete.add(function() {
         // Do Nothing
