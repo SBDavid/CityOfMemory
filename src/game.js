@@ -1,4 +1,4 @@
-var width = window.innerWidth;
+let width = window.innerWidth;
 var height = window.innerHeight;
 
 let game = new Phaser.Game(width, height, Phaser.CANVAS, 'root');
