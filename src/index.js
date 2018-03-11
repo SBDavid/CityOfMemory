@@ -7,7 +7,7 @@ var game = require('./game'),
     choseLevelState = require('./states/choseLevel'),
     chooseChapterState = require('./states/chooseChapter'),
     playState = require('./states/play'),
-    lose = require('./states/lose')
+    lose = require('./states/lose'),
     win = require('./states/win');
 
 window.onload = function() {
