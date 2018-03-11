@@ -1,5 +1,6 @@
 var game = require('../game'),
     gConfig = require('../globalConfig'),
+    btnPanel = require('../comps/btnPanel'),
     titlePanel = require('../comps/titlePanel');
 
 let lose = function() {
@@ -19,7 +20,7 @@ lose.prototype.preload = function() {
 }
 
 lose.prototype.create = function() {
-
+    let self = this;
     // 屏幕宽度
     const screenW = game.width;
     // 上边距
@@ -39,6 +40,17 @@ lose.prototype.create = function() {
     pic.left = (screenW - pic.width) / 2;
 
     this.winGroup.add(pic);
+
+    // 重玩
+    var replayGroup = new btnPanel('重玩', 400, function() {
+        game.state.start('play', true, false, {
+            level: self.levelNo,
+            chapter: self.chapterNo
+        });
+    }).group;
+    replayGroup.top = game.height*0.65;
+    replayGroup.left = (screenW-replayGroup.width)/2;
+    this.winGroup.add(replayGroup);
 }
 
 module.exports = lose;

@@ -1,6 +1,8 @@
 var game = require('../game'),
     gConfig = require('../globalConfig'),
-    titlePanel = require('../comps/titlePanel');
+    titlePanel = require('../comps/titlePanel'),
+    btnPanel = require('../comps/btnPanel'),
+    mazeData = require('../mazeData/index');
 
 let win = function() {
 
@@ -19,7 +21,7 @@ win.prototype.preload = function() {
 }
 
 win.prototype.create = function() {
-
+    let self = this;
     // 屏幕宽度
     const screenW = game.width;
     // 上边距
@@ -37,8 +39,31 @@ win.prototype.create = function() {
     pic.height = 500;
     pic.top = game.height*0.2;
     pic.left = (screenW - pic.width) / 2;
-
     this.winGroup.add(pic);
+
+    // 重玩
+    var replayGroup = new btnPanel('重玩', 400, function() {
+        game.state.start('play', true, false, {
+            level: self.levelNo,
+            chapter: self.chapterNo
+        });
+    }).group;
+    replayGroup.top = game.height*0.65;
+    replayGroup.left = (screenW-replayGroup.width)/2;
+    this.winGroup.add(replayGroup);
+
+    // 下一关
+    if (mazeData['level'+self.levelNo].length - 1 > self.chapterNo ) {
+        var nextGroup = new btnPanel('下一关', 400, function() {
+            game.state.start('play', true, false, {
+                level: self.levelNo,
+                chapter: self.chapterNo + 1
+            });
+        }).group;
+        nextGroup.top = game.height*0.75;
+        nextGroup.left = (screenW-nextGroup.width)/2;
+        this.winGroup.add(nextGroup);
+    }
 }
 
 module.exports = win;
