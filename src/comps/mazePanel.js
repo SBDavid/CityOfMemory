@@ -14,23 +14,25 @@ function mazePanel(level, chapter, dashBoard) {
 
 mazePanel.prototype.init = function() {
     // 地图
-    this.initMaze();
-    // 遮罩
-    this.initMask();
-    // 按钮
-    this.initControl();
+    this.initMaze(() => {
+        // 遮罩
+        this.initMask(() => {
+            // 按钮
+            this.initControl();
+        });
+    });
 }
 
-mazePanel.prototype.initMaze = function() {
+mazePanel.prototype.initMaze = function(afterInit) {
     this.mazeGroup = new Phaser.Group(game);
     this.group.add(this.mazeGroup);
-    this.drawMaze();
+    this.drawMaze(afterInit);
 }
 
-mazePanel.prototype.initMask = function() {
+mazePanel.prototype.initMask = function(afterInit) {
     this.maskGroup = new Phaser.Group(game);
     this.group.add(this.maskGroup);
-    this.drawMask();
+    this.drawMask(afterInit);
 }
 
 mazePanel.prototype.initControl = function() {
@@ -40,7 +42,7 @@ mazePanel.prototype.initControl = function() {
     this.drawControl();
 }
 
-mazePanel.prototype.drawMaze = function() {
+mazePanel.prototype.drawMaze = function(afterInit) {
     // 绘制背景
     this.maze = new Phaser.Graphics(game, 0, 0);
     this.maze.beginFill(gConfig.color.mazeBgNum);
@@ -54,18 +56,44 @@ mazePanel.prototype.drawMaze = function() {
         }
     }
 
-    // 地图截取
+    // 地图展示
     this.mazeImg = new Phaser.Image(game, 0, 0, this.maze.generateTexture());
-    const baseCo = Math.floor((this.mazeM.mazeSize-this.mazeM.screenWidth)/2);
-    this.mazeImg.cropRect = new Phaser.Rectangle(baseCo, baseCo, this.mazeM.screenWidth,this.mazeM.screenWidth);
+    const exitCo = {
+        x: this.mazeM.borderWidth + this.mazeM.unitSize * (this.mazeM.exitCo.x + 0.5) - this.screenWidth/2,
+        y: this.mazeM.borderWidth + this.mazeM.unitSize * (this.mazeM.exitCo.y + 0.5) - this.screenWidth/2
+    }
+    const startCo = {
+        x: this.mazeM.borderWidth + this.mazeM.unitSize * (this.mazeM.currentCo.x + 0.5) - this.screenWidth/2,
+        y: this.mazeM.borderWidth + this.mazeM.unitSize * (this.mazeM.currentCo.y + 0.5) - this.screenWidth/2
+    }
+    this.mazeImg.cropRect = new Phaser.Rectangle(exitCo.x, exitCo.y, this.mazeM.screenWidth,this.mazeM.screenWidth);
     this.mazeImg.updateCrop();
     this.mazeGroup.add(this.mazeImg);
+
+    let moveTween = new Phaser.Tween(this.mazeImg.cropRect, game, game.tweens);
+    let tweenTarget = {
+        x: startCo.x,
+        y: startCo.y
+    }
+    moveTween.to(tweenTarget, 500 * this.mazeM.mazeLevel, Phaser.Easing.Quadratic.InOut);
+    
+    let event = game.time.events.loop(0, () => {
+        this.mazeImg.updateCrop();
+    });
+
+    moveTween.onComplete.add(() => {
+        this.mazeImg.updateCrop();
+        game.time.events.remove(event);
+        afterInit();
+    });
+
+    moveTween.start(); 
 }
 
 /* 获取单元格左上角基准坐标点 */
 mazePanel.prototype.getUnitBaseCo = function(_x, _y) {
     var self = this;
-    var offSetX = this.mazeM.borderWidth-Math.floor(this.mazeM.wallWidth/2);
+    var offSetX = this.mazeM.borderWidth -Math.floor(this.mazeM.wallWidth/2);
     var offSetY = offSetX;
 
     return {
@@ -180,7 +208,7 @@ mazePanel.prototype.drawPeople = function() {
 mazePanel.prototype.drawArrow = function() {
     const self = this;
     const center = Math.floor(this.mazeM.screenWidth/2);
-    const size = this.mazeM.unitSize/4;
+    const size = this.mazeM.unitSize/3;
 
     this.arraws = {};
 
@@ -243,9 +271,10 @@ mazePanel.prototype.showArrow = function() {
 }
 
 // 绘制遮罩
-mazePanel.prototype.drawMask = function() {
+mazePanel.prototype.drawMask = function(afterInit) {
     let visSize = this.mazeM.visSize;
     if (visSize === 5) {
+        afterInit();
         return;
     } 
     let mask = new Phaser.Graphics(game, 0, 0);
@@ -253,7 +282,18 @@ mazePanel.prototype.drawMask = function() {
     mask.lineStyle(unitSize, gConfig.color.mazeMaskNum);
     mask.drawRect(unitSize/2,unitSize/2,this.screenWidth-unitSize,this.screenWidth-unitSize);
     mask.endFill();
+    this.maskGroup.alpha = 0;
     this.maskGroup.add(mask);
+
+    let moveTween = new Phaser.Tween(this.maskGroup, game, game.tweens);
+    let tweenTarget = {
+        alpha: 1
+    }
+    moveTween.to(tweenTarget, 800, Phaser.Easing.Quadratic.InOut);
+    moveTween.onComplete.add(function() {
+        afterInit();
+    });
+    moveTween.start(); 
 }
 
 module.exports = mazePanel;

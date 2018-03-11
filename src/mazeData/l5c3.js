@@ -1,7 +1,7 @@
 module.exports = {
     timeLimit: 30,
     stepLimit: 20,
-    visSize: 5,
+    visSize: 3,
     entryX: 2,
     entryY: 2,
     exitX: 2,
@@ -21,7 +21,7 @@ module.exports = {
             {t:true, l:false}
         ], [
             {t:true, l:false},
-            {t:false, l:true},
+            {t:true, l:true},
             {t:false, l:false},
             {t:true, l:true},
             {t:true, l:false}

@@ -16,6 +16,10 @@ mazeManager.prototype.init = function() {
     this.currentCo = {
         x: self.mazeData.entryX,
         y: self.mazeData.entryY
+    };
+    this.exitCo = {
+        x: self.mazeData.exitX,
+        y: self.mazeData.exitY
     }
     // 迷宫尺寸
     this.mazeLevel = this.mazeData.pathData.length;

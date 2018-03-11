@@ -21,7 +21,7 @@ module.exports = {
             {t:true, l:false}
         ], [
             {t:true, l:false},
-            {t:false, l:true},
+            {t:true, l:true},
             {t:false, l:false},
             {t:true, l:true},
             {t:true, l:false}
