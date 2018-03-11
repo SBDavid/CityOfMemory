@@ -1,6 +1,6 @@
-window.PIXI = null;
-window.p2 = null;
-window.Phaser = null;
+window.PIXI = require('pixi');
+window.p2 = require('p2');
+window.Phaser = require('phaser');
 
 var game = require('./game'),
     preloadState = require('./states/preload'),
