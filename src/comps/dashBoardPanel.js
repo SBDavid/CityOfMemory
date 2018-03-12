@@ -26,6 +26,23 @@ function dashBoardPanel(mazeData, screenW) {
     this.initStepLimit(mazeData.stepLimit);
 }
 
+dashBoardPanel.prototype.changeTween = function(group) {
+    let tween1 = new Phaser.Tween(group, game, game.tweens);
+    let tweenTarget1 = {
+        alpha: 0.7
+    }
+    tween1.to(tweenTarget1, 150, Phaser.Easing.Quadratic.InOut);
+
+    let tween2 = new Phaser.Tween(group, game, game.tweens);
+    let tweenTarget2 = {
+        alpha: 1
+    }
+    tween2.to(tweenTarget2, 150, Phaser.Easing.Quadratic.InOut);
+
+    tween1.chain(tween2);
+    tween1.start();
+}
+
 dashBoardPanel.prototype.initTimeLimit = function(timeLimit) {
     this.timeBoard = new Phaser.Group(game);
     this.timeBoard.top = this.margin;
@@ -58,6 +75,7 @@ dashBoardPanel.prototype.initTimeLimit = function(timeLimit) {
 dashBoardPanel.prototype.setTimeLimit = function(timeLimit) {
     this.timeLimitTxt.text = timeLimit+'';
     this.timeLimitTxt.left = (this.boardW - this.timeLimitTxt.width) / 2;
+    this.changeTween(this.timeBoard);
 }
 
 dashBoardPanel.prototype.initStepLimit = function(stepLimit) {
@@ -92,6 +110,7 @@ dashBoardPanel.prototype.initStepLimit = function(stepLimit) {
 dashBoardPanel.prototype.setStepLimit = function(stepLimit) {
     this.stepLimitTxt.text = stepLimit+'';
     this.stepLimitTxt.left = (this.boardW - this.stepLimitTxt.width) / 2;
+    this.changeTween(this.stepBoard);
 }
 
 module.exports = dashBoardPanel;

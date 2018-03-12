@@ -7,19 +7,19 @@ function titlePanel(title, quitTitleCb) {
     // 屏幕宽度
     const screenW = game.width;
     // 上边距
-    const paddingTop = 25;
-    const paddingLeft = 50;
+    const paddingTop = 5;
+    const paddingLeft = 25;
 
     this.group = new Phaser.Group(game);
     // 背景
     var bg = new Phaser.Graphics(game, 0, 0);
     bg.beginFill(gConfig.color.headerNum);
-    bg.drawRect(0,0,screenW,150);
+    bg.drawRect(0,0,screenW,120);
     bg.endFill();
     this.group.add(bg);
 
     // 返回键
-    let quitBtn = new Phaser.Button(game, paddingTop, 25, 'quit', function() {
+    let quitBtn = new Phaser.Button(game, paddingLeft, paddingTop, 'quit', function() {
         quitTitleCb();
     });
     quitBtn.width = 100;
