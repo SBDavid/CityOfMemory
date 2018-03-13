@@ -26,7 +26,7 @@ mazePanel.prototype.init = function() {
 mazePanel.prototype.initMaze = function(afterInit) {
     this.mazeGroup = new Phaser.Group(game);
     this.group.add(this.mazeGroup);
-    this.drawMaze(afterInit);
+    this.editMaze(afterInit);
 }
 
 mazePanel.prototype.initMask = function(afterInit) {
@@ -40,6 +40,25 @@ mazePanel.prototype.initControl = function() {
     this.controlGroup.inputEnableChildren = true;
     this.group.add(this.controlGroup);
     this.drawControl();
+}
+
+mazePanel.prototype.editMaze = function() {
+    // 绘制背景
+    this.maze = new Phaser.Graphics(game, 0, 0);
+    this.maze.beginFill(gConfig.color.mazeBgNum);
+    this.maze.drawRect(0,0,this.mazeM.mazeSize,this.mazeM.mazeSize);
+    this.maze.endFill();
+
+    // 绘制墙体
+    for(let x=0; x<this.mazeM.mazeLevel; x++) {
+        for(let y=0; y<this.mazeM.mazeLevel; y++) {
+            this.dramMazeUnit(x, y);
+        }
+    }
+
+    this.maze.width = game.width;
+    this.maze.height = game.width;
+    this.mazeGroup.add(this.maze);
 }
 
 mazePanel.prototype.drawMaze = function(afterInit) {

@@ -117,12 +117,14 @@ var l5c1 = __webpack_require__(15),
     l5c3 = __webpack_require__(17),
     l5c4 = __webpack_require__(18);
 
-var l9c1 = __webpack_require__(19),
-    l9c2 = __webpack_require__(20);
+var l7c1 = __webpack_require__(19);
+
+var l9c1 = __webpack_require__(20),
+    l9c2 = __webpack_require__(21);
 
 module.exports = {
     level5: [l5c1,l5c2,l5c3,l5c4],
-    level7: [],
+    level7: [l7c1],
     level9: [l9c1, l9c2]
 }
 
@@ -211,9 +213,9 @@ var game = __webpack_require__(0),
     preloadState = __webpack_require__(10),
     choseLevelState = __webpack_require__(11),
     chooseChapterState = __webpack_require__(13),
-    playState = __webpack_require__(21),
-    lose = __webpack_require__(26),
-    win = __webpack_require__(27);
+    playState = __webpack_require__(22),
+    lose = __webpack_require__(27),
+    win = __webpack_require__(28);
 
 window.onload = function() {
     game.state.add('preload', preloadState);
@@ -126700,6 +126702,79 @@ module.exports = {
 /***/ (function(module, exports) {
 
 module.exports = {
+    timeLimit: 90,
+    stepLimit: 20,
+    visSize: 5,
+    entryX: 2,
+    entryY: 2,
+    exitX: 2,
+    exitY: 0,
+    pathData: [
+        [/* 1 */
+            {t:true, l:true},
+            {t:true, l:true},
+            {t:true, l:true},
+            {t:true, l:true},
+            {t:true, l:true},
+            {t:true, l:true},
+            {t:false, l:true}
+        ], [/* 2 */
+            {t:true, l:true},
+            {t:true, l:true},
+            {t:true, l:true},
+            {t:true, l:true},
+            {t:true, l:true},
+            {t:true, l:false},
+            {t:true, l:false}
+        ], [/* 3 */
+            {t:true, l:true},
+            {t:true, l:true},
+            {t:true, l:true},
+            {t:true, l:true},
+            {t:true, l:true},
+            {t:true, l:false},
+            {t:true, l:false}
+        ], [/* 4 */
+            {t:true, l:true},
+            {t:true, l:true},
+            {t:true, l:true},
+            {t:true, l:true},
+            {t:true, l:true},
+            {t:true, l:false},
+            {t:false, l:true}
+        ], [/* 5 */
+            {t:true, l:true},
+            {t:true, l:true},
+            {t:true, l:true},
+            {t:true, l:true},
+            {t:true, l:true},
+            {t:true, l:true},
+            {t:true, l:true}
+        ], [/* 6 */
+            {t:true, l:true},
+            {t:true, l:true},
+            {t:true, l:true},
+            {t:true, l:true},
+            {t:true, l:true},
+            {t:true, l:true},
+            {t:true, l:true}
+        ], [/* 7 */
+            {t:true, l:true},
+            {t:true, l:true},
+            {t:true, l:true},
+            {t:true, l:true},
+            {t:true, l:true},
+            {t:true, l:true},
+            {t:true, l:true}
+        ]
+    ]
+}
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports) {
+
+module.exports = {
     timeLimit: 100,
     stepLimit: 30,
     visSize: 3,
@@ -126803,7 +126878,7 @@ module.exports = {
 }
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -126910,15 +126985,15 @@ module.exports = {
 }
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var game = __webpack_require__(0),
     gConfig = __webpack_require__(1),
     titlePanel = __webpack_require__(3),
-    mazePanel = __webpack_require__(22),
+    mazePanel = __webpack_require__(23),
     mazeData = __webpack_require__(2),
-    dashBoardPanel = __webpack_require__(25);
+    dashBoardPanel = __webpack_require__(26);
 
 let play = function() {
 
@@ -126963,15 +127038,15 @@ play.prototype.create = function() {
 module.exports = play;
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var game = __webpack_require__(0),
     gConfig = __webpack_require__(1),
-    mazeManager = __webpack_require__(23),
+    mazeManager = __webpack_require__(24),
     mazeData = __webpack_require__(2);
 
-var utils = __webpack_require__(24);
+var utils = __webpack_require__(25);
 
 function mazePanel(level, chapter, dashBoard) {
     this.group = new Phaser.Group(game);
@@ -126994,7 +127069,7 @@ mazePanel.prototype.init = function() {
 mazePanel.prototype.initMaze = function(afterInit) {
     this.mazeGroup = new Phaser.Group(game);
     this.group.add(this.mazeGroup);
-    this.drawMaze(afterInit);
+    this.editMaze(afterInit);
 }
 
 mazePanel.prototype.initMask = function(afterInit) {
@@ -127008,6 +127083,25 @@ mazePanel.prototype.initControl = function() {
     this.controlGroup.inputEnableChildren = true;
     this.group.add(this.controlGroup);
     this.drawControl();
+}
+
+mazePanel.prototype.editMaze = function() {
+    // 绘制背景
+    this.maze = new Phaser.Graphics(game, 0, 0);
+    this.maze.beginFill(gConfig.color.mazeBgNum);
+    this.maze.drawRect(0,0,this.mazeM.mazeSize,this.mazeM.mazeSize);
+    this.maze.endFill();
+
+    // 绘制墙体
+    for(let x=0; x<this.mazeM.mazeLevel; x++) {
+        for(let y=0; y<this.mazeM.mazeLevel; y++) {
+            this.dramMazeUnit(x, y);
+        }
+    }
+
+    this.maze.width = game.width;
+    this.maze.height = game.width;
+    this.mazeGroup.add(this.maze);
 }
 
 mazePanel.prototype.drawMaze = function(afterInit) {
@@ -127267,7 +127361,7 @@ mazePanel.prototype.drawMask = function(afterInit) {
 module.exports = mazePanel;
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var game = __webpack_require__(0),
@@ -127471,7 +127565,7 @@ mazeManager.prototype.gameOver = function() {
 module.exports = mazeManager;
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var game = __webpack_require__(0);
@@ -127524,7 +127618,7 @@ module.exports = {
 }
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var game = __webpack_require__(0),
@@ -127645,7 +127739,7 @@ dashBoardPanel.prototype.setStepLimit = function(stepLimit) {
 module.exports = dashBoardPanel;
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var game = __webpack_require__(0),
@@ -127706,7 +127800,7 @@ lose.prototype.create = function() {
 module.exports = lose;
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var game = __webpack_require__(0),
@@ -127714,7 +127808,7 @@ var game = __webpack_require__(0),
     titlePanel = __webpack_require__(3),
     btnPanel = __webpack_require__(4),
     mazeData = __webpack_require__(2),
-    markPanel = __webpack_require__(28);
+    markPanel = __webpack_require__(29);
 
 let win = function() {
 
@@ -127789,7 +127883,7 @@ win.prototype.create = function() {
 module.exports = win;
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var game = __webpack_require__(0),
