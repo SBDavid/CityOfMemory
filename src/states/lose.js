@@ -36,7 +36,7 @@ lose.prototype.create = function() {
     let pic = new Phaser.Image(game, 0,0, 'lose');
     pic.width = 500;
     pic.height = 500;
-    pic.top = game.height*0.2;
+    pic.top = titleGroup.height + 120;
     pic.left = (screenW - pic.width) / 2;
 
     this.winGroup.add(pic);

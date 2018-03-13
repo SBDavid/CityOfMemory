@@ -126350,13 +126350,13 @@ choseLevel.prototype.create = function() {
     const panelWidth = screenW - 2*paddingLeft;
     const panelPaddingTop = 50;
     // 增加level5
-    var level5 = new levelPanel('新手入门', 5, panelWidth, 300).group;
+    var level5 = new levelPanel('新手教学', 5, panelWidth, 300).group;
     level5.top = titleGroup.y + titleGroup.height + panelPaddingTop;
     level5.left = paddingLeft;
     game.add.world.add(level5);
 
     // 增加level7
-    var level7 = new levelPanel('键入佳境', 7, panelWidth, 300).group;
+    var level7 = new levelPanel('渐入佳境', 7, panelWidth, 300).group;
     level7.top = level5.y + level5.height + panelPaddingTop;
     level7.left = paddingLeft;
     game.add.world.add(level7);
@@ -127043,7 +127043,7 @@ mazePanel.prototype.drawMaze = function(afterInit) {
         x: startCo.x,
         y: startCo.y
     }
-    moveTween.to(tweenTarget, 500 * this.mazeM.mazeLevel, Phaser.Easing.Quadratic.InOut);
+    moveTween.to(tweenTarget, 300 * this.mazeM.mazeLevel, Phaser.Easing.Quadratic.InOut);
     
     let event = game.time.events.loop(0, () => {
         this.mazeImg.updateCrop();
@@ -127139,7 +127139,7 @@ mazePanel.prototype.moveMaze = function(dir) {
     } else if (dir === 'r') {
         tweenTarget.x += this.mazeM.unitSize;
     }
-    moveTween.to(tweenTarget, 500, Phaser.Easing.Quadratic.InOut);
+    moveTween.to(tweenTarget, 300, Phaser.Easing.Quadratic.InOut);
     
     let event = game.time.events.loop(0, function() {
         self.mazeImg.updateCrop();
@@ -127377,9 +127377,7 @@ mazeManager.prototype.move = function(dir) {
     if(this.startTime === null) {
         this.startTime = Date.now();
         this.timeLimitTimer.loop(1000, () => {
-            let now = Date.now();
-            let pass = Math.floor((now - this.startTime) / 1000);
-            let left = this.mazeData.timeLimit - pass;
+            let left = this.getTimeLeft();
             this.dashBoard.setTimeLimit(left);
             if (left <= 0) {
                 this.gameOver();
@@ -127394,6 +127392,19 @@ mazeManager.prototype.move = function(dir) {
     if (stepLeft <= 0 || this.isExit(this.currentCo.x, this.currentCo.y)) {
         this.gameOver();
     }
+}
+
+mazeManager.prototype.getTimeLeft = function() {
+    let now = Date.now();
+    let pass = Math.floor((now - this.startTime) / 1000);
+    let left = this.mazeData.timeLimit - pass;
+    return left;
+}
+
+mazeManager.prototype.getTimePassed = function() {
+    let now = Date.now();
+    let pass = Math.ceil((now - this.startTime) / 1000);
+    return pass;
 }
 
 // 是否是出口位置
@@ -127445,7 +127456,9 @@ mazeManager.prototype.gameOver = function() {
     if (this.isExit(this.currentCo.x, this.currentCo.y)) {
         game.state.start('win', true, false, {
             level: this.levelNo,
-            chapter: this.chapterNo
+            chapter: this.chapterNo,
+            time: this.getTimePassed(),
+            step: this.stepCount
         });
     } else {
         game.state.start('lose', true, false, {
@@ -127673,7 +127686,7 @@ lose.prototype.create = function() {
     let pic = new Phaser.Image(game, 0,0, 'lose');
     pic.width = 500;
     pic.height = 500;
-    pic.top = game.height*0.2;
+    pic.top = titleGroup.height + 120;
     pic.left = (screenW - pic.width) / 2;
 
     this.winGroup.add(pic);
@@ -127700,7 +127713,8 @@ var game = __webpack_require__(0),
     gConfig = __webpack_require__(1),
     titlePanel = __webpack_require__(3),
     btnPanel = __webpack_require__(4),
-    mazeData = __webpack_require__(2);
+    mazeData = __webpack_require__(2),
+    markPanel = __webpack_require__(28);
 
 let win = function() {
 
@@ -127711,6 +127725,8 @@ win.prototype.init = function({level, chapter, time, step}) {
     console.info(`win level: ${level} chapter: ${chapter}`);
     this.levelNo = level;
     this.chapterNo = chapter;
+    this.time = time;
+    this.step = step;
     this.winGroup = new Phaser.Group(game);
 }
 
@@ -127735,9 +127751,15 @@ win.prototype.create = function() {
     let pic = new Phaser.Image(game, 0,0, 'win');
     pic.width = 500;
     pic.height = 500;
-    pic.top = game.height*0.2;
+    pic.top = titleGroup.height + 120;
     pic.left = (screenW - pic.width) / 2;
     this.winGroup.add(pic);
+
+    // 用时、部署
+    let markP = new markPanel(this.time, this.step).group;
+    markP.top = pic.height + 300;
+    markP.left = (screenW - markP.width) / 2;
+    this.winGroup.add(markP);
 
     // 重玩
     var replayGroup = new btnPanel('重玩', 400, function() {
@@ -127765,6 +127787,45 @@ win.prototype.create = function() {
 }
 
 module.exports = win;
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var game = __webpack_require__(0),
+    gConfig = __webpack_require__(1);
+
+function markPanel(time, step) {
+
+    const screenW = game.width;
+
+    this.group = new Phaser.Group(game);  
+
+
+    var bg = new Phaser.Graphics(game, 0, 0);
+    bg.beginFill(gConfig.color.defaultPanelBgNum);
+    bg.drawRoundedRect(0,0,600,250,20);
+    bg.endFill();
+    this.group.add(bg);
+
+    var timeTxt = new Phaser.Text(game,0, 0, `用时：${time} s`,{
+        fontSize: '60px',
+        fill: gConfig.color.defaultBgTxt
+    });
+    timeTxt.top = 40;
+    timeTxt.left = 50;
+    this.group.add(timeTxt);
+
+    var stepTxt = new Phaser.Text(game,0, 0, `步数：${step} `,{
+        fontSize: '60px',
+        fill: gConfig.color.defaultBgTxt
+    });
+    stepTxt.top = 140;
+    stepTxt.left = 50;
+    this.group.add(stepTxt);
+}
+
+module.exports = markPanel;
 
 /***/ })
 /******/ ]);

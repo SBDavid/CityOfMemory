@@ -105,9 +105,7 @@ mazeManager.prototype.move = function(dir) {
     if(this.startTime === null) {
         this.startTime = Date.now();
         this.timeLimitTimer.loop(1000, () => {
-            let now = Date.now();
-            let pass = Math.floor((now - this.startTime) / 1000);
-            let left = this.mazeData.timeLimit - pass;
+            let left = this.getTimeLeft();
             this.dashBoard.setTimeLimit(left);
             if (left <= 0) {
                 this.gameOver();
@@ -122,6 +120,19 @@ mazeManager.prototype.move = function(dir) {
     if (stepLeft <= 0 || this.isExit(this.currentCo.x, this.currentCo.y)) {
         this.gameOver();
     }
+}
+
+mazeManager.prototype.getTimeLeft = function() {
+    let now = Date.now();
+    let pass = Math.floor((now - this.startTime) / 1000);
+    let left = this.mazeData.timeLimit - pass;
+    return left;
+}
+
+mazeManager.prototype.getTimePassed = function() {
+    let now = Date.now();
+    let pass = Math.ceil((now - this.startTime) / 1000);
+    return pass;
 }
 
 // 是否是出口位置
@@ -173,7 +184,9 @@ mazeManager.prototype.gameOver = function() {
     if (this.isExit(this.currentCo.x, this.currentCo.y)) {
         game.state.start('win', true, false, {
             level: this.levelNo,
-            chapter: this.chapterNo
+            chapter: this.chapterNo,
+            time: this.getTimePassed(),
+            step: this.stepCount
         });
     } else {
         game.state.start('lose', true, false, {

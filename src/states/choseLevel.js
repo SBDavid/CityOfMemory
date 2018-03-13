@@ -36,13 +36,13 @@ choseLevel.prototype.create = function() {
     const panelWidth = screenW - 2*paddingLeft;
     const panelPaddingTop = 50;
     // 增加level5
-    var level5 = new levelPanel('新手入门', 5, panelWidth, 300).group;
+    var level5 = new levelPanel('新手教学', 5, panelWidth, 300).group;
     level5.top = titleGroup.y + titleGroup.height + panelPaddingTop;
     level5.left = paddingLeft;
     game.add.world.add(level5);
 
     // 增加level7
-    var level7 = new levelPanel('键入佳境', 7, panelWidth, 300).group;
+    var level7 = new levelPanel('渐入佳境', 7, panelWidth, 300).group;
     level7.top = level5.y + level5.height + panelPaddingTop;
     level7.left = paddingLeft;
     game.add.world.add(level7);

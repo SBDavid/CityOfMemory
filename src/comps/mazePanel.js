@@ -75,7 +75,7 @@ mazePanel.prototype.drawMaze = function(afterInit) {
         x: startCo.x,
         y: startCo.y
     }
-    moveTween.to(tweenTarget, 500 * this.mazeM.mazeLevel, Phaser.Easing.Quadratic.InOut);
+    moveTween.to(tweenTarget, 300 * this.mazeM.mazeLevel, Phaser.Easing.Quadratic.InOut);
     
     let event = game.time.events.loop(0, () => {
         this.mazeImg.updateCrop();
@@ -171,7 +171,7 @@ mazePanel.prototype.moveMaze = function(dir) {
     } else if (dir === 'r') {
         tweenTarget.x += this.mazeM.unitSize;
     }
-    moveTween.to(tweenTarget, 500, Phaser.Easing.Quadratic.InOut);
+    moveTween.to(tweenTarget, 300, Phaser.Easing.Quadratic.InOut);
     
     let event = game.time.events.loop(0, function() {
         self.mazeImg.updateCrop();
