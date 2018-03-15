@@ -123,7 +123,7 @@ var l9c1 = __webpack_require__(20),
     l9c2 = __webpack_require__(21);
 
 module.exports = {
-    level5: [l5c1,l5c2,l5c3,l5c4],
+    level5: [l5c2,l5c3,l5c4],
     level7: [l7c1],
     level9: [l9c1, l9c2]
 }
@@ -126703,69 +126703,69 @@ module.exports = {
 
 module.exports = {
     timeLimit: 90,
-    stepLimit: 20,
-    visSize: 5,
-    entryX: 2,
-    entryY: 2,
+    stepLimit: 30,
+    visSize: 3,
+    entryX: 3,
+    entryY: 6,
     exitX: 2,
     exitY: 0,
     pathData: [
         [/* 1 */
             {t:true, l:true},
+            {t:false, l:true},
+            {t:false, l:true},
             {t:true, l:true},
-            {t:true, l:true},
-            {t:true, l:true},
-            {t:true, l:true},
-            {t:true, l:true},
+            {t:false, l:true},
+            {t:false, l:true},
             {t:false, l:true}
         ], [/* 2 */
-            {t:true, l:true},
-            {t:true, l:true},
-            {t:true, l:true},
-            {t:true, l:true},
-            {t:true, l:true},
             {t:true, l:false},
+            {t:true, l:false},
+            {t:true, l:false},
+            {t:false, l:true},
+            {t:false, l:true},
+            {t:false, l:false},
             {t:true, l:false}
         ], [/* 3 */
             {t:true, l:true},
+            {t:false, l:false},
             {t:true, l:true},
-            {t:true, l:true},
-            {t:true, l:true},
-            {t:true, l:true},
+            {t:false, l:true},
+            {t:false, l:true},
             {t:true, l:false},
             {t:true, l:false}
         ], [/* 4 */
             {t:true, l:true},
-            {t:true, l:true},
-            {t:true, l:true},
-            {t:true, l:true},
-            {t:true, l:true},
+            {t:true, l:false},
+            {t:true, l:false},
+            {t:true, l:false},
+            {t:true, l:false},
             {t:true, l:false},
             {t:false, l:true}
         ], [/* 5 */
-            {t:true, l:true},
-            {t:true, l:true},
-            {t:true, l:true},
-            {t:true, l:true},
-            {t:true, l:true},
-            {t:true, l:true},
-            {t:true, l:true}
+            {t:true, l:false},
+            {t:true, l:false},
+            {t:false, l:true},
+            {t:false, l:false},
+            {t:false, l:true},
+            {t:true, l:false},
+            {t:true, l:false}
         ], [/* 6 */
-            {t:true, l:true},
-            {t:true, l:true},
-            {t:true, l:true},
-            {t:true, l:true},
-            {t:true, l:true},
-            {t:true, l:true},
-            {t:true, l:true}
+            {t:true, l:false},
+            {t:false, l:true},
+            {t:false, l:true},
+            {t:false, l:false},
+            {t:false, l:true},
+            {t:false, l:false},
+            {t:true, l:false}
         ], [/* 7 */
-            {t:true, l:true},
-            {t:true, l:true},
-            {t:true, l:true},
-            {t:true, l:true},
-            {t:true, l:true},
-            {t:true, l:true},
-            {t:true, l:true}
+            {t:true, l:false},
+            {t:false, l:true},
+            {t:false, l:true},
+            {t:true, l:false},
+            {t:false, l:true},
+            {t:false, l:true},
+            {t:false, l:false}
         ]
     ]
 }
@@ -127069,7 +127069,7 @@ mazePanel.prototype.init = function() {
 mazePanel.prototype.initMaze = function(afterInit) {
     this.mazeGroup = new Phaser.Group(game);
     this.group.add(this.mazeGroup);
-    this.editMaze(afterInit);
+    this.drawMaze(afterInit);
 }
 
 mazePanel.prototype.initMask = function(afterInit) {

@@ -26,7 +26,7 @@ mazePanel.prototype.init = function() {
 mazePanel.prototype.initMaze = function(afterInit) {
     this.mazeGroup = new Phaser.Group(game);
     this.group.add(this.mazeGroup);
-    this.editMaze(afterInit);
+    this.drawMaze(afterInit);
 }
 
 mazePanel.prototype.initMask = function(afterInit) {
